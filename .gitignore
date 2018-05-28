@@ -23,7 +23,6 @@ class/
 
 #Mac file
 .DS_Store
-.recommenders
 
 #Netbeans
 nbactions.xml
@@ -36,7 +35,8 @@ nb-configuration.xml
 *~
 
 # Eclipse
-.project
-.settings
-.classpath
+#.project
+#.settings
+#.classpath
 .metadata
+.recommenders
