@@ -1,4 +1,4 @@
-package xyz.kemix.dubbo.demo;
+package xyz.kemix.dubbo.demo.generic;
 
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.RegistryConfig;

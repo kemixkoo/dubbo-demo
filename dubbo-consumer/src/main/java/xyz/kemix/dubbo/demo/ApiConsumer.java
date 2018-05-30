@@ -2,10 +2,9 @@ package xyz.kemix.dubbo.demo;
 
 import java.util.List;
 
-import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ReferenceConfig;
-import com.alibaba.dubbo.config.RegistryConfig;
 
+import xyz.kemix.dubbo.demo.generic.AbsConsumer;
 import xyz.kemix.dubbo.demo.service.HelloService;
 import xyz.kemix.dubbo.demo.service.PermissionService;
 
