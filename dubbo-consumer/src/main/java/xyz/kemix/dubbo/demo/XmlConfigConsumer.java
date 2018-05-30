@@ -2,6 +2,7 @@ package xyz.kemix.dubbo.demo;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import xyz.kemix.dubbo.demo.service.HelloService;
 import xyz.kemix.dubbo.demo.service.PermissionService;
 
 /**
@@ -15,7 +16,10 @@ public class XmlConfigConsumer {
         System.out.println("开始调用远程服务...");
 
         PermissionService permissionService = context.getBean(PermissionService.class);
-        System.out.print("服务返回： :" + permissionService.getPermissions(1L));
+        System.out.println("服务返回： :" + permissionService.getPermissions(1L));
+
+        HelloService helloService = context.getBean(HelloService.class);
+        System.out.println("服务返回： :" + helloService.sayHello("World"));
         context.close();
     }
 }

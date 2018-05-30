@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ReferenceConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
+import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.rpc.service.GenericService;
 
 /**
@@ -13,18 +14,11 @@ import com.alibaba.dubbo.rpc.service.GenericService;
  *
  *         more details: http://dubbo.incubator.apache.org/books/dubbo-user-book/demos/generic-reference.html
  */
-public class GenericConsumer {
+public class GenericConsumer extends AbsConsumer {
+    
     @SuppressWarnings({ "unchecked" })
-    public static void invokePermissions() {
-        ApplicationConfig application = new ApplicationConfig();
-        application.setName("perm-" + UUID.randomUUID().toString());
-
+    public void getPermission() {
         String interfaceName = "xyz.kemix.dubbo.demo.service.PermissionService";
-        /*
-         * FIXME, default will be dubbo://...., but if don't match provider, will have timeout error.
-         */
-        // String address = "127.0.0.1:2181";
-        String address = "zookeeper://127.0.0.1:2181"; // must same as provider
 
         // add registry addresses
         RegistryConfig registry = new RegistryConfig();
@@ -34,8 +28,8 @@ public class GenericConsumer {
         ReferenceConfig<GenericService> reference = new ReferenceConfig<GenericService>();
         reference.setGeneric(true);
 
-        reference.setApplication(application);
-        reference.setRegistry(registry);
+        reference.setApplication(createApp("gen-perm"));
+        reference.setRegistry(createRegistry());
         reference.setInterface(interfaceName);
         reference.setConnections(10);
         reference.setTimeout(1000);
@@ -58,9 +52,11 @@ public class GenericConsumer {
         GenericService genericService = reference.get();
         Object result = genericService.$invoke("getPermissions", new String[] { Long.class.getName() }, new Object[] { 2L });
 
+        System.out.println("返回结果:");
         if (result instanceof List) {
             ((List<String>) result).forEach(System.out::println);
         }
+        printServer();
 
         /*
          * FIXME, If can't match, will try via the setting retries and throw com.alibaba.dubbo.remoting.TimeoutException
@@ -69,37 +65,39 @@ public class GenericConsumer {
 
     }
 
-    public static void invokeHello() {
-        ApplicationConfig application = new ApplicationConfig();
-        application.setName("hello-" + UUID.randomUUID().toString());
-
+    /**
+     * if don't set the HelloService in provider, because can't find it, will have timeout error
+     */
+    public void sayHello() {
         String interfaceName = "xyz.kemix.dubbo.demo.service.HelloService";
-        String address = "127.0.0.1:2181";
-
-        // add registry addresses
-        RegistryConfig registry = new RegistryConfig();
-        registry.setAddress(address);
 
         //
         ReferenceConfig<GenericService> reference = new ReferenceConfig<GenericService>();
-        reference.setApplication(application);
-        reference.setRegistry(registry);
+        reference.setGeneric(true);
+
+        reference.setApplication(createApp("gen-hello"));
+        reference.setRegistry(createRegistry());
         reference.setInterface(interfaceName);
         reference.setConnections(10);
         reference.setTimeout(1000);
-        reference.setVersion("*"); // no special version
-        reference.setGeneric(true);
+        /*
+         * FIXME, If the provider don't set version, also no need set, else can't match. if have multi-versions, can set * for all.
+         */
+        // reference.setVersion("*");
 
         GenericService genericService = reference.get();
         Object result = genericService.$invoke("sayHello", new String[] { String.class.getName() }, new Object[] { "world" });
 
-        System.out.println(result);
-
+        System.out.println("返回结果: " + result);
+        printServer();
     }
 
     public static void main(String[] args) {
-        invokePermissions();
-        invokeHello();
+        System.out.println("开始调用远程服务...");
+
+        GenericConsumer consumer = new GenericConsumer();
+        consumer.getPermission();
+        consumer.sayHello();
     }
 
 }

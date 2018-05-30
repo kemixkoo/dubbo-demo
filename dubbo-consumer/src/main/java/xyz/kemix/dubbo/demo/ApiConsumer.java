@@ -1,7 +1,6 @@
 package xyz.kemix.dubbo.demo;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ReferenceConfig;
@@ -15,24 +14,15 @@ import xyz.kemix.dubbo.demo.service.PermissionService;
  *
  *         more details: http://dubbo.incubator.apache.org/books/dubbo-user-book/configuration/api.html
  */
-public class ApiConsumer {
-    public static void getPermission() {
-        ApplicationConfig application = new ApplicationConfig();
-        application.setName("api-perm");
-
-        String address = "zookeeper://127.0.0.1:2181"; // must same as provider
-
-        // add registry addresses
-        RegistryConfig registry = new RegistryConfig();
-        registry.setAddress(address);
-
+public class ApiConsumer extends AbsConsumer {
+    public void getPermission() {
         ReferenceConfig<PermissionService> reference = new ReferenceConfig<PermissionService>();
-
-        reference.setApplication(application);
-        reference.setRegistry(registry);
+        reference.setApplication(createApp("api-perm"));
+        reference.setRegistry(createRegistry());
         reference.setInterface(PermissionService.class);
         reference.setConnections(10);
         reference.setTimeout(1000);
+
         /*
          * FIXME, If the provider don't set version, also no need set, else can't match. if have multi-versions, can set * for all.
          */
@@ -41,39 +31,40 @@ public class ApiConsumer {
         PermissionService service = reference.get();
 
         List<String> permissions = service.getPermissions(2L);
+        System.out.println("返回结果:");
         permissions.forEach(System.out::println);
+        printServer();
     }
 
-    public static void sayHello() {
-
-        ApplicationConfig application = new ApplicationConfig();
-        application.setName("api-hello");
-
-        String address = "127.0.0.1:2181";
-
-        // add registry addresses
-        RegistryConfig registry = new RegistryConfig();
-        registry.setAddress(address);
+    /**
+     * if don't set the HelloService in provider, because can't find it, will have timeout error
+     */
+    public void sayHello() {
 
         ReferenceConfig<HelloService> reference = new ReferenceConfig<HelloService>();
-        reference.setApplication(application);
-        reference.setRegistry(registry);
+        reference.setApplication(createApp("api-hello"));
+        reference.setRegistry(createRegistry());
         reference.setInterface(HelloService.class);
         reference.setConnections(10);
         reference.setTimeout(1000);
-        reference.setVersion("*"); // no special version
-        reference.setId(UUID.randomUUID().toString());
+        /*
+         * FIXME, If the provider don't set version, also no need set, else can't match. if have multi-versions, can set * for all.
+         */
+        // reference.setVersion("*");
 
         HelloService service = reference.get();
 
         String result = service.sayHello("world");
-        System.out.println("Result: " + result);
-
+        System.out.println("返回结果: " + result);
+        printServer();
     }
 
     public static void main(String[] args) {
-        getPermission();
-        sayHello();
+        System.out.println("开始调用远程服务...");
+
+        ApiConsumer consumer = new ApiConsumer();
+        consumer.getPermission();
+        consumer.sayHello();
     }
 
 }
