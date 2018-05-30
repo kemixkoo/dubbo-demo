@@ -6,6 +6,6 @@ package xyz.kemix.dubbo.demo.service;
  */
 public interface HelloService {
 
-	String sayHello(String name);
+    String sayHello(String name);
 
 }

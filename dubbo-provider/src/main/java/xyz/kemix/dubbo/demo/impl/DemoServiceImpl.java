@@ -12,20 +12,20 @@ import xyz.kemix.dubbo.demo.service.PermissionService;
  */
 public class DemoServiceImpl implements HelloService, PermissionService {
 
-	@Override
-	public String sayHello(String name) {
-		System.out.println("init : " + name);
-		return "hello " + name;
+    @Override
+    public String sayHello(String name) {
+        System.out.println("init : " + name);
+        return "hello " + name;
 
-	}
+    }
 
-	@Override
-	public List<String> getPermissions(Long id) {
-		List<String> demo = new ArrayList<String>();
-		demo.add(String.format("Permission_%d", id - 1));
-		demo.add(String.format("Permission_%d", id));
-		demo.add(String.format("Permission_%d", id + 1));
-		return demo;
-	}
+    @Override
+    public List<String> getPermissions(Long id) {
+        List<String> demo = new ArrayList<String>();
+        demo.add(String.format("Permission_%d", id - 1));
+        demo.add(String.format("Permission_%d", id));
+        demo.add(String.format("Permission_%d", id + 1));
+        return demo;
+    }
 
 }
