@@ -14,8 +14,9 @@ import com.alibaba.dubbo.rpc.service.GenericService;
 public abstract class AbsGenericConsumer extends AbsConsumer {
 
     @SuppressWarnings({ "unchecked" })
-    public void getPermission() {
+    public void getPermissions() {
         String interfaceName = "xyz.kemix.dubbo.demo.service.PermissionService";
+        String methodName = "getPermissions";
 
         // add registry addresses
         RegistryConfig registry = new RegistryConfig();
@@ -47,9 +48,9 @@ public abstract class AbsGenericConsumer extends AbsConsumer {
         // reference.setConsumer(consumerConfig);
 
         GenericService genericService = reference.get();
-        Object result = genericService.$invoke("getPermissions", new String[] { Long.class.getName() }, new Object[] { 2L });
+        Object result = genericService.$invoke(methodName, new String[] { Long.class.getName() }, new Object[] { 2L });
 
-        System.out.println("返回结果:");
+        System.out.println(methodName + "返回结果:");
         if (result instanceof List) {
             ((List<String>) result).forEach(System.out::println);
         }
@@ -67,7 +68,7 @@ public abstract class AbsGenericConsumer extends AbsConsumer {
      */
     public void sayHello() {
         String interfaceName = "xyz.kemix.dubbo.demo.service.HelloService";
-
+        String methodName = "sayHello";
         //
         ReferenceConfig<GenericService> reference = new ReferenceConfig<GenericService>();
         reference.setGeneric(true);
@@ -83,9 +84,9 @@ public abstract class AbsGenericConsumer extends AbsConsumer {
         // reference.setVersion("*");
 
         GenericService genericService = reference.get();
-        Object result = genericService.$invoke("sayHello", new String[] { String.class.getName() }, new Object[] { "world" });
+        Object result = genericService.$invoke(methodName, new String[] { String.class.getName() }, new Object[] { "world" });
 
-        System.out.println("返回结果: " + result);
+        System.out.println(methodName + "返回结果: " + result);
         printServer();
     }
 

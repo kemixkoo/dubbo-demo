@@ -14,7 +14,7 @@ import xyz.kemix.dubbo.demo.service.PermissionService;
  *         more details: http://dubbo.incubator.apache.org/books/dubbo-user-book/configuration/api.html
  */
 public class ApiConsumer extends AbsConsumer {
-    public void getPermission() {
+    public void getPermissions() {
         ReferenceConfig<PermissionService> reference = new ReferenceConfig<PermissionService>();
         reference.setApplication(createApp("api-perm"));
         reference.setRegistry(createRegistry());
@@ -62,7 +62,7 @@ public class ApiConsumer extends AbsConsumer {
         System.out.println("开始调用远程服务...");
 
         ApiConsumer consumer = new ApiConsumer();
-        consumer.getPermission();
+        consumer.getPermissions();
         consumer.sayHello();
     }
 

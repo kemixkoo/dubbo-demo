@@ -13,7 +13,7 @@ public class GenericConsumer extends AbsGenericConsumer {
         System.out.println("开始调用远程服务...");
 
         GenericConsumer consumer = new GenericConsumer();
-        consumer.getPermission();
+        consumer.getPermissions();
         consumer.sayHello();
     }
 
