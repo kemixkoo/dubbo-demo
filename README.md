@@ -7,7 +7,7 @@
 ## Config Zookeeper
 
 1. `cp conf/zoo_sample.cfg conf/zoo.cfg`
-2. just do demo, no cluster. so the contents of zoo.cfg:
+2. Just do demo, no cluster. so the contents of zoo.cfg:
 ```
 tickTime=2000
 initLimit=10
@@ -35,3 +35,15 @@ After do `mvn package` for dubbo-admin project, need put the war from target to 
 Then, can check the service list via URL: http://localhost:2080/dubbo-admin-2.0.0/governance/services
 
 PS, the port conflict with existed app, so change to 2080 here.
+
+
+## Issues
+
+### POJO
+
+If deal with the POJO in service, the POJO must implements the interface `java.io.Serializable`.
+
+### Lambda in Provider
+
+If have the `lambda` in provider, and have the error `invalid constant type: 18` when start provider.
+need set the higher version of javassist, for example `3.22.0-GA`.
