@@ -89,5 +89,4 @@ public abstract class AbsGenericConsumer extends AbsConsumer {
         System.out.println(methodName + "返回结果: " + result);
         printServer();
     }
-
 }

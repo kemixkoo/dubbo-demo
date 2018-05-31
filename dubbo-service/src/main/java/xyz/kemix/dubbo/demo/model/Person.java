@@ -1,12 +1,31 @@
 package xyz.kemix.dubbo.demo.model;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Kemix Koo
  *
  */
-public class Person {
+public class Person implements Serializable {
+    private static final long serialVersionUID = -1373143532399427831L;
+    
     private String name;
     private int id, age;
+    private List<Person> children;
+    private Map<String, Object> additions;
+
+    public Person() {
+        super();
+    }
+
+    public Person(int id, String name, int age) {
+        this();
+        this.id = id;
+        this.name = name;
+        this.age = age;
+    }
 
     public String getName() {
         return name;
@@ -30,6 +49,22 @@ public class Person {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public List<Person> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Person> children) {
+        this.children = children;
+    }
+
+    public Map<String, Object> getAdditions() {
+        return additions;
+    }
+
+    public void setAdditions(Map<String, Object> additions) {
+        this.additions = additions;
     }
 
     @Override

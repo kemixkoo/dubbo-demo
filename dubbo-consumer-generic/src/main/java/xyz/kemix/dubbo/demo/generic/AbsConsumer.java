@@ -37,8 +37,4 @@ public abstract class AbsConsumer {
         System.out.println();
     }
 
-    public abstract void getPermissions();
-
-    public abstract void sayHello();
-
 }

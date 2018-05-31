@@ -18,4 +18,7 @@
 
 	<dubbo:reference id="helloService"
 		interface="xyz.kemix.dubbo.demo.service.HelloService" />
+
+	<dubbo:reference id="personService"
+		interface="xyz.kemix.dubbo.demo.service.PersonService" />
 </beans>

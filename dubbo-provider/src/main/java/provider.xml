@@ -31,4 +31,10 @@
 	<bean id="helloService"
 		class="xyz.kemix.dubbo.demo.impl.DemoServiceImpl" />
 
+
+	<dubbo:service
+		interface="xyz.kemix.dubbo.demo.service.PersonService"
+		ref="personService" protocol="dubbo" />
+	<bean id="personService"
+		class="xyz.kemix.dubbo.demo.impl.DemoServiceImpl" />
 </beans>

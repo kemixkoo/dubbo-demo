@@ -22,6 +22,11 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>dubbo</artifactId>
 		</dependency>
+		<dependency><!-- can't use default version, if the provider have lambda, 
+				the version must be 3.18+ -->
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
